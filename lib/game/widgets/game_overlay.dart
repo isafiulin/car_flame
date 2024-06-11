@@ -1,6 +1,5 @@
 import 'dart:io' show Platform;
 import 'package:car_flame/game/car_race.dart';
-import 'package:car_flame/game/widgets/main_menu_overlay.dart';
 import 'package:car_flame/game/widgets/score_display.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -20,160 +19,169 @@ class GameOverlayState extends State<GameOverlay> {
   final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
   final Game game = CarRace();
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 30,
-            left: 30,
-            child: GameScoreDisplay(game: widget.game),
-          ),
-          Positioned(
-            top: 30,
-            right: 30,
-            child: ElevatedButton(
-              child: isPaused
-                  ? const Icon(
-                      Icons.play_arrow,
-                      size: 48,
-                    )
-                  : const Icon(
-                      Icons.pause,
-                      size: 48,
-                    ),
-              onPressed: () {
-                (widget.game as CarRace).togglePauseState();
-                setState(
-                  () {
-                    isPaused = !isPaused;
-                  },
-                );
-              },
+    return GestureDetector(
+      onTapUp: (details) {
+        (widget.game as CarRace).player.resetDirection();
+      },
+      onPanUpdate: (details) {},
+      child: Material(
+        color: Colors.transparent,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 30,
+              left: 30,
+              child: GameScoreDisplay(game: widget.game),
             ),
-          ),
-          // if (isMobile)
-          Positioned(
-            bottom: 10,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Positioned(
+              top: 30,
+              right: 30,
+              child: ElevatedButton(
+                child: isPaused
+                    ? const Icon(
+                        Icons.play_arrow,
+                        size: 48,
+                      )
+                    : const Icon(
+                        Icons.pause,
+                        size: 48,
+                      ),
+                onPressed: () {
+                  (widget.game as CarRace).togglePauseState();
+                  setState(
+                    () {
+                      isPaused = !isPaused;
+                    },
+                  );
+                },
+              ),
+            ),
+            if (isMobile)
+              Positioned(
+                bottom: 10,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
                     children: [
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24),
-                            child: GestureDetector(
-                              onTapDown: (details) {
-                                (widget.game as CarRace).player.moveDown();
-                              },
-                              onTapUp: (details) {
-                                (widget.game as CarRace)
-                                    .player
-                                    .resetDirection();
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 3.0,
-                                shadowColor:
-                                    Theme.of(context).colorScheme.surface,
-                                child:
-                                    const Icon(Icons.arrow_drop_down, size: 64),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 24),
+                                child: GestureDetector(
+                                  onTapDown: (details) {
+                                    (widget.game as CarRace).player.moveRight();
+                                  },
+                                  onTapUp: (details) {
+                                    (widget.game as CarRace)
+                                        .player
+                                        .resetDirection();
+                                  },
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 3.0,
+                                    shadowColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    child:
+                                        const Icon(Icons.arrow_right, size: 64),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 24),
+                                child: GestureDetector(
+                                  onTapDown: (details) {
+                                    (widget.game as CarRace).player.moveLeft();
+                                  },
+                                  onTapUp: (details) {
+                                    (widget.game as CarRace)
+                                        .player
+                                        .resetDirection();
+                                  },
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 3.0,
+                                    shadowColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    child:
+                                        const Icon(Icons.arrow_left, size: 64),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24),
-                            child: GestureDetector(
-                              onTapDown: (details) {
-                                (widget.game as CarRace).player.moveLeft();
-                              },
-                              onTapUp: (details) {
-                                (widget.game as CarRace)
-                                    .player
-                                    .resetDirection();
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 3.0,
-                                shadowColor:
-                                    Theme.of(context).colorScheme.surface,
-                                child: const Icon(Icons.arrow_left, size: 64),
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 24),
+                                child: GestureDetector(
+                                  onTapDown: (details) {
+                                    (widget.game as CarRace).player.moveUp();
+                                  },
+                                  onTapUp: (details) {
+                                    (widget.game as CarRace)
+                                        .player
+                                        .resetDirection();
+                                  },
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 3.0,
+                                    shadowColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    child: const Icon(Icons.arrow_drop_up,
+                                        size: 64),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 24),
+                                child: GestureDetector(
+                                  onTapDown: (details) {
+                                    (widget.game as CarRace).player.moveDown();
+                                  },
+                                  onTapUp: (details) {
+                                    (widget.game as CarRace)
+                                        .player
+                                        .resetDirection();
+                                  },
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 3.0,
+                                    shadowColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    child: const Icon(Icons.arrow_drop_down,
+                                        size: 64),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 24),
-                            child: GestureDetector(
-                              onTapDown: (details) {
-                                (widget.game as CarRace).player.moveUp();
-                              },
-                              onTapUp: (details) {
-                                (widget.game as CarRace)
-                                    .player
-                                    .resetDirection();
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 3.0,
-                                shadowColor:
-                                    Theme.of(context).colorScheme.surface,
-                                child:
-                                    const Icon(Icons.arrow_drop_up, size: 64),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 24),
-                            child: GestureDetector(
-                              onTapDown: (details) {
-                                (widget.game as CarRace).player.moveRight();
-                              },
-                              onTapUp: (details) {
-                                (widget.game as CarRace)
-                                    .player
-                                    .resetDirection();
-                              },
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 3.0,
-                                shadowColor:
-                                    Theme.of(context).colorScheme.surface,
-                                child: const Icon(Icons.arrow_right, size: 64),
-                              ),
-                            ),
-                          ),
-                        ],
+                      const SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
-                  const WhiteSpace(
-                    height: 20,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-          if (isPaused)
-            Positioned(
-              top: MediaQuery.of(context).size.height / 2 - 72.0,
-              right: MediaQuery.of(context).size.width / 2 - 72.0,
-              child: const Icon(
-                Icons.pause_circle,
-                size: 144.0,
-                color: Colors.black12,
+            if (isPaused)
+              Positioned(
+                top: MediaQuery.of(context).size.height / 2 - 72.0,
+                right: MediaQuery.of(context).size.width / 2 - 72.0,
+                child: const Icon(
+                  Icons.pause_circle,
+                  size: 144.0,
+                  color: Colors.black12,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

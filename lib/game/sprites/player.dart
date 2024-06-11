@@ -23,8 +23,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   double moveSpeed;
   Character character;
 
-  int _hAxisInput = 0;
-  int _vAxisInput = 0;
+  int hAxisInput = 0;
+  int vAxisInput = 0;
   final int movingLeftInput = -1;
   final int movingRightInput = 1;
   final int movingUpInput = -1;
@@ -43,8 +43,8 @@ class Player extends SpriteGroupComponent<PlayerState>
   void update(double dt) {
     if (gameRef.gameManager.isIntro || gameRef.gameManager.isGameOver) return;
 
-    _velocity.x = _hAxisInput * moveSpeed;
-    _velocity.y = _vAxisInput * moveSpeed;
+    _velocity.x = hAxisInput * moveSpeed;
+    _velocity.y = vAxisInput * moveSpeed;
 
     position += _velocity * dt;
 
@@ -80,8 +80,8 @@ class Player extends SpriteGroupComponent<PlayerState>
 
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0;
-    _vAxisInput = 0;
+    hAxisInput = 0;
+    vAxisInput = 0;
 
     if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
       moveLeft();
@@ -103,26 +103,26 @@ class Player extends SpriteGroupComponent<PlayerState>
   }
 
   void moveLeft() {
-    _hAxisInput = movingLeftInput;
+    hAxisInput = movingLeftInput;
     current = PlayerState.left;
   }
 
   void moveRight() {
-    _hAxisInput = movingRightInput;
+    hAxisInput = movingRightInput;
     current = PlayerState.right;
   }
 
   void moveUp() {
-    _vAxisInput = movingUpInput;
+    vAxisInput = movingUpInput;
   }
 
   void moveDown() {
-    _vAxisInput = movingDownInput;
+    vAxisInput = movingDownInput;
   }
 
   void resetDirection() {
-    _hAxisInput = 0;
-    _vAxisInput = 0;
+    hAxisInput = 0;
+    vAxisInput = 0;
   }
 
   void reset() {

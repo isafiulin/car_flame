@@ -33,7 +33,7 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
     super.initState();
     MobileAds.instance.updateRequestConfiguration(RequestConfiguration());
     _createInterstitialAd();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _showInterstitialAd();
     });
   }
