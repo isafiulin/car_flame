@@ -1,4 +1,4 @@
-package com.example.car_flame
+package kg.ilapp.carflame
 
 import io.flutter.embedding.android.FlutterActivity
 
